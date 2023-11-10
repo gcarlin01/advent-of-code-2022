@@ -23,6 +23,36 @@ function getChoice(char) {
   }
 }
 
+function getMyChoiceFromResult(opp, result) {
+  if (opp === CHOICE.ROCK) {
+    if (result === "X") {
+      return CHOICE.SCISSORS;
+    } else if (result === "Y") {
+      return CHOICE.ROCK;
+    } else {
+      return CHOICE.PAPER;
+    }
+  }
+  if (opp === CHOICE.PAPER) {
+    if (result === "X") {
+      return CHOICE.ROCK;
+    } else if (result === "Y") {
+      return CHOICE.PAPER;
+    } else {
+      return CHOICE.SCISSORS;
+    }
+  }
+  if (opp === CHOICE.SCISSORS) {
+    if (result === "X") {
+      return CHOICE.PAPER;
+    } else if (result === "Y") {
+      return CHOICE.SCISSORS;
+    } else {
+      return CHOICE.ROCK;
+    }
+  }
+}
+
 function getRoundScore(round) {
   const opp = round[0];
   const me = round[1];
@@ -86,4 +116,25 @@ function part1() {
   console.log("part 1", sum);
 }
 
+function part2() {
+  const rounds = lines.map((round) => round.split(" "));
+
+  const roundScores = rounds.map((round) => {
+    const opp = getChoice(round[0]);
+    const result = round[1];
+
+    const me = getMyChoiceFromResult(opp, result);
+
+    const score = getRoundScore([opp, me]);
+
+    return score;
+  });
+
+  let sum = 0;
+  roundScores.forEach((num) => (sum += num));
+
+  console.log("part 2", sum);
+}
+
 part1();
+part2();
